@@ -101,6 +101,7 @@ public class OperatorController {
      * @return push metric status
      */
     @RequestMapping("/push/state")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode pushState(@RequestParam(required = false) boolean detail,
             @RequestParam(required = false) boolean reset) {
         
@@ -145,6 +146,7 @@ public class OperatorController {
      * @return switchDomain
      */
     @GetMapping("/switches")
+    @Secured(action = ActionTypes.READ)
     public SwitchDomain switches(HttpServletRequest request) {
         return switchDomain;
     }
@@ -175,6 +177,7 @@ public class OperatorController {
      * @return metrics information
      */
     @GetMapping("/metrics")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode metrics(HttpServletRequest request) {
         
         ObjectNode result = JacksonUtils.createEmptyJsonNode();
@@ -199,6 +202,7 @@ public class OperatorController {
     }
     
     @GetMapping("/distro/server")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode getResponsibleServer4Service(
             @RequestParam(defaultValue = Constants.DEFAULT_NAMESPACE_ID) String namespaceId,
             @RequestParam String serviceName) {
@@ -223,6 +227,7 @@ public class OperatorController {
      * @return distro metric status
      */
     @GetMapping("/distro/status")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode distroStatus(@RequestParam(defaultValue = "view") String action) {
         
         ObjectNode result = JacksonUtils.createEmptyJsonNode();
@@ -236,6 +241,7 @@ public class OperatorController {
     }
     
     @GetMapping("/servers")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode getHealthyServerList(@RequestParam(required = false) boolean healthy) {
         
         ObjectNode result = JacksonUtils.createEmptyJsonNode();
@@ -260,12 +266,14 @@ public class OperatorController {
      */
     @Deprecated
     @RequestMapping("/server/status")
+    @Secured(action = ActionTypes.READ)
     public String serverStatus(@RequestParam String serverStatus) {
         serverListManager.onReceiveServerStatus(serverStatus);
         return "ok";
     }
     
     @PutMapping("/log")
+    @Secured(action = ActionTypes.READ)
     public String setLogLevel(@RequestParam String logName, @RequestParam String logLevel) {
         Loggers.setLogLevel(logName, logLevel);
         return "ok";
@@ -279,6 +287,7 @@ public class OperatorController {
      */
     @Deprecated
     @RequestMapping(value = "/cluster/state", method = RequestMethod.GET)
+    @Secured(action = ActionTypes.READ)
     public JsonNode getClusterStates() {
         return JacksonUtils.transferToJsonNode(serviceManager.getMySelfClusterState());
     }

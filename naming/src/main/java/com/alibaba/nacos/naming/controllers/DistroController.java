@@ -17,6 +17,8 @@
 package com.alibaba.nacos.naming.controllers;
 
 import com.alibaba.nacos.api.exception.NacosException;
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.utils.JacksonUtils;
 import com.alibaba.nacos.naming.consistency.Datum;
 import com.alibaba.nacos.naming.consistency.KeyBuilder;
@@ -69,6 +71,7 @@ public class DistroController {
      * @throws Exception if failed
      */
     @PutMapping("/datum")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/distro/datum")
     public ResponseEntity onSyncDatum(@RequestBody Map<String, Datum<Instances>> dataMap) throws Exception {
         
         if (dataMap.isEmpty()) {
@@ -99,6 +102,7 @@ public class DistroController {
      * @return 'ok'
      */
     @PutMapping("/checksum")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/distro/checksum")
     public ResponseEntity syncChecksum(@RequestParam String source, @RequestBody Map<String, String> dataMap) {
         DistroHttpData distroHttpData = new DistroHttpData(createDistroKey(source), dataMap);
         distroProtocol.onVerify(distroHttpData);
@@ -113,6 +117,7 @@ public class DistroController {
      * @throws Exception if failed
      */
     @GetMapping("/datum")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/distro/datum")
     public ResponseEntity get(@RequestBody String body) throws Exception {
         
         JsonNode bodyNode = JacksonUtils.toObj(body);
@@ -132,6 +137,7 @@ public class DistroController {
      * @return all datums
      */
     @GetMapping("/datums")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/distro/datums")
     public ResponseEntity getAllDatums() {
         DistroData distroData = distroProtocol.onSnapshot(KeyBuilder.INSTANCE_LIST_KEY_PREFIX);
         return ResponseEntity.ok(distroData.getContent());

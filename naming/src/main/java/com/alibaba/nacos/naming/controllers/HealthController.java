@@ -71,6 +71,7 @@ public class HealthController {
      * @return hello message
      */
     @RequestMapping("/server")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/health/server")
     public ObjectNode server() {
         ObjectNode result = JacksonUtils.createEmptyJsonNode();
         result.put("msg",
@@ -132,6 +133,7 @@ public class HealthController {
      * @return health checkers map
      */
     @GetMapping("checkers")
+    @Secured(action = ActionTypes.WRITE, resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/health/checkers")
     public ResponseEntity checkers() {
         List<Class<? extends AbstractHealthChecker>> classes = HealthCheckType.getLoadedHealthCheckerClasses();
         Map<String, AbstractHealthChecker> checkerMap = new HashMap<>(8);

@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.config.server.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.model.RestResult;
 import com.alibaba.nacos.config.server.constant.Constants;
 import com.alibaba.nacos.config.server.model.capacity.Capacity;
@@ -57,6 +59,7 @@ public class CapacityController {
     }
     
     @GetMapping
+    @Secured(resource = Constants.CAPACITY_CONTROLLER_PATH, action = ActionTypes.READ)
     public RestResult<Capacity> getCapacity(HttpServletResponse response, @RequestParam(required = false) String group,
             @RequestParam(required = false) String tenant) {
         if (group == null && tenant == null) {
@@ -99,6 +102,7 @@ public class CapacityController {
      * Modify group or capacity of tenant, and init record when capacity information are still initial.
      */
     @PostMapping
+    @Secured(resource = Constants.CAPACITY_CONTROLLER_PATH, action = ActionTypes.READ)
     public RestResult<Boolean> updateCapacity(HttpServletResponse response,
             @RequestParam(required = false) String group, @RequestParam(required = false) String tenant,
             @RequestParam(required = false) Integer quota, @RequestParam(required = false) Integer maxSize,

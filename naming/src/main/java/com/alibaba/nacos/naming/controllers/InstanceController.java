@@ -546,6 +546,7 @@ public class InstanceController {
      * @throws NacosException any error during handle
      */
     @RequestMapping("/statuses")
+    @Secured(action = ActionTypes.READ)
     public ObjectNode listWithHealthStatus(@RequestParam String key) throws NacosException {
         
         String serviceName;

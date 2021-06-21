@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.core.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.http.Callback;
 import com.alibaba.nacos.common.http.HttpClientBeanHolder;
 import com.alibaba.nacos.common.http.HttpUtils;
@@ -73,6 +75,7 @@ public class NacosClusterController {
      * @return all members
      */
     @GetMapping(value = "/nodes")
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/cluster/nodes")
     public RestResult<Collection<Member>> listNodes(
             @RequestParam(value = "keyword", required = false) String ipKeyWord) {
         Collection<Member> members = memberManager.allMembers();
@@ -96,11 +99,13 @@ public class NacosClusterController {
     // cluster according to this interface
     
     @GetMapping(value = "/simple/nodes")
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/cluster/simple/nodes")
     public RestResult<Collection<String>> listSimpleNodes() {
         return RestResultUtils.success(memberManager.getMemberAddressInfos());
     }
     
     @GetMapping("/health")
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/cluster/health")
     public RestResult<String> getHealth() {
         return RestResultUtils.success(memberManager.getSelf().getState().name());
     }
@@ -112,6 +117,7 @@ public class NacosClusterController {
      * @return {@link RestResult}
      */
     @PostMapping(value = {"/report"})
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/cluster/report")
     public RestResult<String> report(@RequestBody Member node) {
         if (!node.check()) {
             return RestResultUtils.failedWithMsg(400, "Node information is illegal");

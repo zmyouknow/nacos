@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.config.server.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.config.server.constant.Constants;
 import com.alibaba.nacos.config.server.service.datasource.DataSourceService;
 import com.alibaba.nacos.config.server.service.datasource.DynamicDataSource;
@@ -54,6 +56,7 @@ public class HealthController {
     }
     
     @GetMapping
+    @Secured(action = ActionTypes.WRITE, resource = Constants.HEALTH_CONTROLLER_PATH)
     public String getHealth() {
         // TODO UP DOWN WARN
         StringBuilder sb = new StringBuilder();

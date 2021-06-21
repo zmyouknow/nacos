@@ -16,6 +16,9 @@
 
 package com.alibaba.nacos.config.server.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
+import com.alibaba.nacos.config.server.auth.ConfigResourceParser;
 import com.alibaba.nacos.config.server.constant.Constants;
 import com.alibaba.nacos.config.server.model.GroupkeyListenserStatus;
 import com.alibaba.nacos.config.server.model.SampleResult;
@@ -52,6 +55,7 @@ public class ListenerController {
      * Get subscribe information from client side.
      */
     @GetMapping
+    @Secured(action = ActionTypes.READ, parser = ConfigResourceParser.class)
     public GroupkeyListenserStatus getAllSubClientConfigByIp(@RequestParam("ip") String ip,
             @RequestParam(value = "all", required = false) boolean all,
             @RequestParam(value = "tenant", required = false) String tenant,

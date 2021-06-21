@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.config.server.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.config.server.constant.Constants;
 import com.alibaba.nacos.config.server.model.ConfigHistoryInfo;
 import com.alibaba.nacos.config.server.model.Page;
@@ -53,6 +55,7 @@ public class HistoryController {
      * @return
      */
     @GetMapping(params = "search=accurate")
+    @Secured(action = ActionTypes.READ, resource = Constants.HISTORY_CONTROLLER_PATH)
     public Page<ConfigHistoryInfo> listConfigHistory(@RequestParam("dataId") String dataId, //
             @RequestParam("group") String group, //
             @RequestParam(value = "tenant", required = false, defaultValue = StringUtils.EMPTY) String tenant,
@@ -75,6 +78,7 @@ public class HistoryController {
      * @return history config info
      */
     @GetMapping
+    @Secured(action = ActionTypes.READ, resource = Constants.HISTORY_CONTROLLER_PATH)
     public ConfigHistoryInfo getConfigHistoryInfo(@RequestParam("nid") Long nid) {
         return persistService.detailConfigHistory(nid);
     }
@@ -87,6 +91,7 @@ public class HistoryController {
      * @since 1.4.0
      */
     @GetMapping(value = "/previous")
+    @Secured(action = ActionTypes.READ, resource = Constants.HISTORY_CONTROLLER_PATH + "/previous")
     public ConfigHistoryInfo getPreviousConfigHistoryInfo(@RequestParam("id") Long id) {
         return persistService.detailPreviousConfigHistory(id);
     }

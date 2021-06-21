@@ -73,6 +73,7 @@ public class CoreOpsController {
      * @return {@link RestResult}
      */
     @GetMapping(value = "/idInfo")
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/ops/idInfo")
     public RestResult<Map<String, Map<Object, Object>>> idInfo() {
         Map<String, Map<Object, Object>> info = new HashMap<>(10);
         idGeneratorManager.getGeneratorMap().forEach((resource, idGenerator) -> info.put(resource, idGenerator.info()));
@@ -80,6 +81,7 @@ public class CoreOpsController {
     }
     
     @PutMapping(value = "/log")
+    @Secured(action = ActionTypes.READ, resource = Commons.NACOS_CORE_CONTEXT + "/ops/log")
     public String setLogLevel(@RequestParam String logName, @RequestParam String logLevel) {
         Loggers.setLogLevel(logName, logLevel);
         return HttpServletResponse.SC_OK + "";

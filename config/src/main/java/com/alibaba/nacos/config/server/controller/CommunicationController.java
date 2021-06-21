@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.config.server.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.config.server.constant.Constants;
 import com.alibaba.nacos.config.server.model.SampleResult;
 import com.alibaba.nacos.config.server.service.LongPollingService;
@@ -59,6 +61,7 @@ public class CommunicationController {
      *
      */
     @GetMapping("/dataChange")
+    @Secured(resource = Constants.COMMUNICATION_CONTROLLER_PATH + "/dataChange", action = ActionTypes.WRITE)
     public Boolean notifyConfigInfo(HttpServletRequest request, @RequestParam("dataId") String dataId,
             @RequestParam("group") String group,
             @RequestParam(value = "tenant", required = false, defaultValue = StringUtils.EMPTY) String tenant,
@@ -82,6 +85,7 @@ public class CommunicationController {
      *
      */
     @GetMapping("/configWatchers")
+    @Secured(resource = Constants.COMMUNICATION_CONTROLLER_PATH + "/configWatchers", action = ActionTypes.READ)
     public SampleResult getSubClientConfig(@RequestParam("dataId") String dataId, @RequestParam("group") String group,
             @RequestParam(value = "tenant", required = false) String tenant, ModelMap modelMap) {
         group = StringUtils.isBlank(group) ? Constants.DEFAULT_GROUP : group;
@@ -93,6 +97,7 @@ public class CommunicationController {
      *
      */
     @GetMapping("/watcherConfigs")
+    @Secured(resource = Constants.COMMUNICATION_CONTROLLER_PATH + "/watcherConfigs", action = ActionTypes.READ)
     public SampleResult getSubClientConfigByIp(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("ip") String ip, ModelMap modelMap) {
         return longPollingService.getCollectSubscribleInfoByIp(ip);

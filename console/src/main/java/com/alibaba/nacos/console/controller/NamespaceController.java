@@ -65,6 +65,7 @@ public class NamespaceController {
      * @return namespace list
      */
     @GetMapping
+    @Secured(action = ActionTypes.READ, resource = "/v1/console/namespaces")
     public RestResult<List<Namespace>> getNamespaces(HttpServletRequest request, HttpServletResponse response) {
         RestResult<List<Namespace>> rr = new RestResult<List<Namespace>>();
         rr.setCode(200);
@@ -92,6 +93,7 @@ public class NamespaceController {
      * @return namespace all info
      */
     @GetMapping(params = "show=all")
+    @Secured(action = ActionTypes.READ, resource = "/v1/console/namespaces")
     public NamespaceAllInfo getNamespace(HttpServletRequest request, HttpServletResponse response,
             @RequestParam("namespaceId") String namespaceId) {
         // TODO 获取用kp
@@ -147,6 +149,7 @@ public class NamespaceController {
      * @return true if exist, otherwise false
      */
     @GetMapping(params = "checkNamespaceIdExist=true")
+    @Secured(action = ActionTypes.READ, resource = "/v1/console/namespaces")
     public Boolean checkNamespaceIdExist(@RequestParam("customNamespaceId") String namespaceId) {
         if (StringUtils.isBlank(namespaceId)) {
             return false;

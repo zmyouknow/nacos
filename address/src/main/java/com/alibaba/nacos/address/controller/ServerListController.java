@@ -18,6 +18,8 @@ package com.alibaba.nacos.address.controller;
 
 import com.alibaba.nacos.address.component.AddressServerGeneratorManager;
 import com.alibaba.nacos.api.common.Constants;
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.naming.core.Cluster;
 import com.alibaba.nacos.naming.core.Service;
 import com.alibaba.nacos.naming.core.ServiceManager;
@@ -52,6 +54,7 @@ public class ServerListController {
      * @return result of get
      */
     @RequestMapping(value = "/{product}/{cluster}", method = RequestMethod.GET)
+    @Secured(resource = "/product/cluster", action = ActionTypes.READ)
     public ResponseEntity getCluster(@PathVariable String product, @PathVariable String cluster) {
         
         String productName = addressServerBuilderManager.generateProductName(product);

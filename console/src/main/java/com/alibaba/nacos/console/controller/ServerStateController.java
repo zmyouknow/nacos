@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.console.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.utils.VersionUtils;
 import com.alibaba.nacos.sys.env.EnvUtil;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,7 @@ public class ServerStateController {
      * @return state json.
      */
     @GetMapping("/state")
+    @Secured(action = ActionTypes.READ, resource = "/v1/console/server")
     public ResponseEntity serverState() {
         Map<String, String> serverState = new HashMap<>(3);
         serverState.put("standalone_mode",

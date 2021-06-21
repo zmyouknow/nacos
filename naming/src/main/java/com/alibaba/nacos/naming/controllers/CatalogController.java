@@ -230,6 +230,7 @@ public class CatalogController {
      * @return response time information
      */
     @RequestMapping("/rt/service")
+    @Secured(resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/catalog/rt/service", action = ActionTypes.READ)
     public ObjectNode rt4Service(HttpServletRequest request) {
         
         String namespaceId = WebUtils.optional(request, CommonParams.NAMESPACE_ID, Constants.DEFAULT_NAMESPACE_ID);

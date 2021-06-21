@@ -19,6 +19,8 @@ package com.alibaba.nacos.naming.controllers;
 import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.naming.CommonParams;
 import com.alibaba.nacos.api.naming.utils.NamingUtils;
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.utils.JacksonUtils;
 import com.alibaba.nacos.core.utils.OverrideParameterRequestWrapper;
 import com.alibaba.nacos.core.utils.WebUtils;
@@ -68,6 +70,7 @@ public class ApiController extends InstanceController {
      * @throws Exception exception
      */
     @RequestMapping("/allDomNames")
+    @Secured(resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/api/allDomNames", action = ActionTypes.READ)
     public ObjectNode allDomNames(HttpServletRequest request) throws Exception {
         
         boolean responsibleOnly = Boolean.parseBoolean(WebUtils.optional(request, "responsibleOnly", "false"));
@@ -131,6 +134,7 @@ public class ApiController extends InstanceController {
      */
     @RequestMapping("/srvIPXT")
     @ResponseBody
+    @Secured(resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/api/srvIPXT", action = ActionTypes.READ)
     public ObjectNode srvIpxt(HttpServletRequest request) throws Exception {
         
         String namespaceId = WebUtils.optional(request, CommonParams.NAMESPACE_ID, Constants.DEFAULT_NAMESPACE_ID);
@@ -162,6 +166,7 @@ public class ApiController extends InstanceController {
      */
     @CanDistro
     @RequestMapping("/clientBeat")
+    @Secured(resource = UtilsAndCommons.NACOS_NAMING_CONTEXT + "/api/clientBeat", action = ActionTypes.READ)
     public ObjectNode clientBeat(HttpServletRequest request) throws Exception {
         OverrideParameterRequestWrapper requestWrapper = OverrideParameterRequestWrapper.buildRequest(request);
         requestWrapper.addParameter(CommonParams.SERVICE_NAME,

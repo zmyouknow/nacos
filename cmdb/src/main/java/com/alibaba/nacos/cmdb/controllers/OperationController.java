@@ -16,6 +16,8 @@
 
 package com.alibaba.nacos.cmdb.controllers;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.cmdb.memory.CmdbProvider;
 import com.alibaba.nacos.cmdb.utils.UtilsAndCommons;
 import com.alibaba.nacos.core.utils.WebUtils;
@@ -47,6 +49,7 @@ public class OperationController {
      * @throws Exception exception
      */
     @RequestMapping(value = "/label", method = RequestMethod.GET)
+    @Secured(resource = UtilsAndCommons.NACOS_CMDB_CONTEXT + "/ops/label", action = ActionTypes.READ)
     public String queryLabel(HttpServletRequest request) throws Exception {
         String entry = WebUtils.required(request, "entry");
         String label = WebUtils.required(request, "label");
